@@ -33,7 +33,7 @@ func main() {
 	flag.Parse()
 	conn, _ := net.Dial("tcp", *addrPtr)
 	go read(conn)
-	go write(conn)
+	write(conn)
 
 	//TODO Try to connect to the server
 	//TODO Start asynchronously reading and displaying messages
