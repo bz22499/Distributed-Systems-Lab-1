@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"flag"
 	"net"
-	"fmt"
 )
 
 type Message struct {
@@ -18,12 +17,23 @@ func handleError(err error) {
 }
 
 func acceptConns(ln net.Listener, conns chan net.Conn) {
+	for {
+		conn, _ := ln.Accept()
+		conns <- conn
+	}
+
 	// TODO: all
 	// Continuously accept a network connection from the Listener
 	// and add it to the channel for handling connections.
 }
 
 func handleClient(client net.Conn, clientid int, msgs chan Message) {
+	reader := bufio.NewReader(client)
+	for {
+		msg, _ := reader.ReadString('\n')
+		msgs <- Message{clientid, msg}
+	}
+
 	// TODO: all
 	// So long as this connection is alive:
 	// Read in new messages as delimited by '\n's
